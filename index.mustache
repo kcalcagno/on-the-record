@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <title>NDNation On-the-Record Predictions</title>
+        <meta http-equiv="Pragma" content="no-cache" />
+        <link type="text/css" rel="stylesheet" href="layout.css" />
+    </head>
+    <body>
+        <h1>NDNation On-the-Record Hoops Prediction Contest</h1>
+        <p><i>by <a href="mailto:kcalcagno@alumni.nd.edu">IrishMace</a></i></p>
+
+        <h2>2017-2018 Season</h2>
+        <p><a href="scoring.html">Scoring &amp; Rules</a></p>
+
+        {{#fullSeasonActive}}
+        <p><a href="fullseason.html">Full Season Leaderboard</a></p>
+        {{/fullSeasonActive}}
+        {{^fullSeasonActive}}
+        <p class="disabled">Full Season Leaderboard (posted following third game)</p>
+        {{/fullSeasonActive}}
+
+        {{#accActive}}
+        <p><a href="acc.html">ACC Leaderboard</a></p>
+        {{/accActive}}
+        {{^accActive}}
+        <p class="disabled">ACC Leaderboard (posted following second ACC game)</p>
+        {{/accActive}}
+
+        <h2>Indvidual Game Results</h2>
+        <ul>
+        {{#games}}
+            {{#ndScore}}
+            <li><a href="{{filename}}">Irish {{ndScore}}, {{opponent}} {{oppScore}}</a></li>
+            {{/ndScore}}
+            {{^ndScore}}
+            <li>{{opponent}}</li>
+            {{/ndScore}}
+        {{/games}}
+        </ul>
+
+        <p><a href="../hoops1718/index.html">2017-18 Results</a></p>
+
+    </body>
+</html>

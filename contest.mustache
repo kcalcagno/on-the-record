@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <title>{{title}}</title>
+        <link type="text/css" rel="stylesheet" href="layout.css" />
+        <meta http-equiv="Pragma" content="no-cache" />
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+        <p>
+            {{#plural}}The worst {{mulligans}} scores for each player are thrown out.{{/plural}}
+            {{^plural}}The worst score for each player is thrown out.{{/plural}}
+            Players who miss {{disqualify}} or more games are removed.
+        </p>
+        <p>Legend: <span class="mulligan">&nbsp;40&nbsp;</span>: Score thrown out;
+                   <span class="penalty">50</span>: Missed game penalty;
+                   <span class="bonus">(-5)</span>: Top-three game bonus
+        </p>
+        <table>
+            <col class="scores" />
+            <col class="name" />
+            <colgroup class="scores">
+                <col class="total" span="1" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="scores">&nbsp;</th>
+                    <th class="name">Name</th>
+                    <th class="total">Total</th>
+                    {{#games}}
+                    <th class="scores"><a href="{{filename}}">{{shortName}}</a></th>
+                    {{/games}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#players}}
+                <tr>
+                    <td class="scores">{{rank}}.</td>
+                    <td class="name">{{name}}</td>
+                    <td class="total">{{totalScore}}</td>
+                    {{#picks}}
+                    <td class="scores">{{#bonus}}<span class="bonus">({{bonus}})</span>{{/bonus}}<span class="{{decoration}}">&nbsp;{{score}}&nbsp;</span></td>
+                    {{/picks}}
+                </tr>
+                {{/players}}
+            </tbody>
+        </table>
+    </body>
+</html>
