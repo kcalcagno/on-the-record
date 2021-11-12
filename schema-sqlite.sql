@@ -21,3 +21,8 @@ create table prediction (
   primary key (game_id, poster_id),
   check (nd_score <> opp_score)
 );
+
+create table miscellany (
+  property text not null,
+  value text not null
+);

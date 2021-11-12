@@ -2,7 +2,6 @@
 
 import sqlite3
 import pystache
-import re
 from hoops import Game, Poster, Prediction
 
 class Contest(object):
@@ -95,10 +94,17 @@ class ContestPick(object):
 
 
 class Index(object):
-    def __init__(self, fullSeason, acc):
+    def __init__(self, fullSeason, acc, misc):
         self.games = sorted(Game.games.values(), key=lambda g: g.gameId)
         self.fullSeasonActive = fullSeason.active
         self.accActive = acc.active
+        self.misc = misc
+        year = int(misc['year'])
+        self.season = {
+            'current': f'{year - 1}-{year}',
+            'previous': f'{year - 2}-{year - 2001}',
+            'prevDir': f'hoops{year - 2002}{year - 2001}'
+        }
 
     def render(self):
         with open('index.html', 'w') as output:
@@ -135,7 +141,9 @@ def main():
         acc.calculate()
         acc.render()
 
-    Index(fullSeason, acc).render()
+    miscCur = conn.execute('select property, value from miscellany')
+    misc = dict(miscCur.fetchall())
+    Index(fullSeason, acc, misc).render()
 
     
 if __name__ == '__main__':
