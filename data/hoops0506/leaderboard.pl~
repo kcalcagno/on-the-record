@@ -1,0 +1,182 @@
+#!/usr/bin/perl
+
+use DBI;
+use HTML::EasyTags;
+
+
+$dbh = DBI->connect("DBI:ODBC:hoops", "KCalcagno", "") or die $DBI::errstr;
+
+$html = HTML::EasyTags->new();
+$html->groups_by_default(1);
+
+$sth = $dbh->prepare("select * from Posters");
+$sth->execute;
+
+while ($row = $sth->fetchrow_hashref) {
+    push @posters, { %$row };
+}
+
+$sth = $dbh->prepare("select * from Games where NDScore is not null");
+$sth->execute;
+$allref = $sth->fetchall_hashref("GameID");
+
+@links = ();
+
+foreach $key (sort {$a <=> $b} keys %$allref) {
+    $row = $$allref{$key};
+    $filename = &gameBoard($key, $row);
+    push @links, $html->a({'href' => "$filename"}, $$row{"Opponent"});
+}
+
+open INDEX, ">index.html" or die "Can't open index.html";
+open TEMPLATE, "index_template.html" or die "Can't open index_template.html";
+
+while ($line = <TEMPLATE>) {
+    last if $line =~ /^<!-- -->$/;
+    print INDEX $line;
+}
+
+print INDEX $html->ul($html->li(\@links));
+print INDEX $line while ($line = <TEMPLATE>);
+
+close TEMPLATE;
+close INDEX;
+
+&leaderBoard("fullseason.html", "Full Season Leaderboard",
+	     0, \@posters, $allref);
+
+$sth = $dbh->prepare("select * from Games where NDScore is not null and BigEast = 1");
+$sth->execute;
+$beref = $sth->fetchall_hashref("GameID");
+
+&leaderBoard("bigeast.html", "Big East Leaderboard",
+	     1, \@posters, $beref);
+
+
+$dbh->disconnect or warn $dbh->errstr;
+
+sub nameCompare {
+    lc($$a{"PosterName"}) cmp lc($$b{"PosterName"});
+}
+
+sub scoreCompare {
+    $$a{"Total"} <=> $$b{"Total"};
+}
+
+sub gameBoard {
+    my ($gid, $game) = @_;
+    my $filename = sprintf "game%02d.html", $gid;
+    my $sth = $dbh->prepare("GameResults $gid");
+    my $row;
+
+    open GAMEFILE, ">$filename" or die "Can't open $filename";
+    print GAMEFILE
+	$html->start_html("Game $gid -- $$game{'Opponent'}",
+			  $html->link({'rel' => "stylesheet",
+				       'type' => "text/css",
+				       'href' => "layout.css" }));
+    print GAMEFILE
+	$html->h1({'class' => "game"}, "Irish $$game{'NDScore'}, $$game{'Opponent'} $$game{'OppScore'}");
+    print GAMEFILE $html->table_start();
+    print GAMEFILE $html->thead_start();
+    print GAMEFILE $html->tr_start();
+    print GAMEFILE $html->th({'class' => "name"}, "Name");
+    print GAMEFILE $html->th({'class' => "total"}, "Score");
+    print GAMEFILE $html->th({'class' => "scores"},
+			     [ "ND", $$game{'ShortName'}, "Margin",
+			       "Points", "P/B" ]);
+    print GAMEFILE $html->tr_end();
+    print GAMEFILE $html->thead_end();
+
+    print GAMEFILE $html->tbody_start();
+
+    $sth->execute;
+    while ($row = $sth->fetchrow_hashref) {
+	print GAMEFILE $html->tr_start();
+	print GAMEFILE $html->td({'class' => "name"}, $$row{"PosterName"});
+	print GAMEFILE $html->td({'class' => "total"}, $$row{"Score"});
+	print GAMEFILE $html->td({'class' => "scores"},
+				 [ $$row{"NDScore"}, $$row{"OppScore"},
+				   $$row{"Margin"}, $$row{"Points"},
+				   $$row{"PenBon"} ]);
+	print GAMEFILE $html->tr_end();
+    }
+
+    print GAMEFILE $html->tbody_end();
+    print GAMEFILE $html->table_end();
+
+    print GAMEFILE $html->end_html();
+
+    close GAMEFILE;
+    return $filename;
+}
+
+sub leaderBoard {
+    my ($filename, $title, $bigeast, $posters, $tref) = @_;
+    my ($key, $record, $sth, $scores);
+    my @board = ();
+    my @headers = ();
+
+    open OUTFILE, ">$filename" or die "Can't open $filename";
+
+    print OUTFILE $html->start_html($title,
+				    [ $html->link({'rel' => "stylesheet",
+						   'type' => "text/css",
+						   'href' => "layout.css" }),
+				      $html->meta({'http-equiv' => "Pragma",
+						   'content' => "no-cache"}) ]);
+    print OUTFILE $html->h1($title);
+
+
+    foreach $key (sort {$a <=> $b} keys %$tref) {
+	push @headers, $tref->{$key}->{"ShortName"};
+    }
+
+    foreach $record (@posters) {
+	$sth = $dbh->prepare("PosterResults $$record{'PosterID'}, $bigeast");
+	$sth->execute;
+	$scores = $sth->fetchall_arrayref;
+	if (defined $$scores[0][1]) {
+	    $$record{"Total"} = $$scores[0][1];
+	    $$record{"Scores"} = [ ];
+	    for $i (1 .. $#$scores) {
+		push @{$$record{"Scores"}}, $$scores[$i][1];
+	    }
+	    push @board, $record;
+	}
+    }
+
+    @board = sort scoreCompare @board;
+
+    print OUTFILE $html->table_start();
+
+    print OUTFILE $html->col_mini({'class' => "name"});
+    print OUTFILE $html->colgroup_start({'class' => "scores"});
+    print OUTFILE $html->col_mini({'class' => "total", 'span' => "1"});
+    print OUTFILE $html->col_mini({'span' => length @headers});
+    print OUTFILE $html->colgroup_end();
+
+    print OUTFILE $html->thead_start();
+    print OUTFILE $html->tr_start();
+    print OUTFILE $html->th({'class' => "name"}, "Name");
+    print OUTFILE $html->th({'class' => "total"}, "Total");
+    print OUTFILE $html->th({'class' => "scores"}, \@headers);
+    print OUTFILE $html->tr_end();
+    print OUTFILE $html->thead_end();
+
+    print OUTFILE $html->tbody_start();
+
+    foreach $record (@board) {
+	print OUTFILE $html->tr_start();
+	print OUTFILE $html->td({'class' => "name"}, $$record{"PosterName"});
+	print OUTFILE $html->td({'class' => "total"}, $$record{"Total"});
+	print OUTFILE $html->td({'class' => "scores"}, $$record{"Scores"});
+	print OUTFILE $html->tr_end;
+    }
+
+    print OUTFILE $html->tbody_end();
+    print OUTFILE $html->table_end();
+    print OUTFILE $html->end_html();
+    close OUTFILE;
+
+}

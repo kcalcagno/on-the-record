@@ -1,0 +1,103 @@
+HTownND,81,64
+Fuzzy Patters,75,61
+ribs,71,59
+TCFC,81,69
+Tanaquil,82,59
+GoDomers,81,64
+chuck99,81,65
+hawk2e,86,68
+bigstein,78,61
+Gator77,76,65
+NDbacker,80,60
+NDGraz,87,59
+GraceHall99,77,60
+02 Dad,79,61
+elite8,79,60
+David Rivers,81,70
+IrishThinClad,72,58
+ChickenSoupBowl,68,61
+SoCaliDomer,79,56
+IrishForum,101,68
+Casanova,85,72
+Drew,79,60
+mardigras97,87,68
+PA_IrishFan,81,63
+234stanford,72,60
+Nick Thomas,79,60
+IamND,79,62
+clamdigger,77,64
+CRASH,81,64
+cv94,72,60
+bobnd80,81,66
+JMSND97,78,62
+Big B,78,60
+schmendel,81,62
+Fitz,92,75
+irish golfer,83,59
+motownmike,74,59
+j3,82,67
+SajamND,84,64
+Ferndog,74,62
+gozer,74,69
+irish93,78,61
+gatewood,63,55
+NDFI,79,60
+Domer01,76,62
+nd1992,74,61
+ndbrian,74,58
+BraNDon5,77,59
+Mike88,84,70
+assist57,78,67
+tbsone,80,62
+RabbitAngstrom,80,65
+65domer,84,66
+leftcoastirish,81,62
+Nautilus,78,60
+ND1gal,81,66
+RJD,74,61
+ndfranz,79,60
+shobert,82,68
+JLiebs,74,65
+nd1986,78,60
+mikeman,72,55
+Piertravlr,88,73
+someguy,80,60
+cj4319,84,61
+faninsb,79,63
+dpbiebel,81,63
+lgoirish,89,66
+BostonDomah,78,63
+BTFNDGUY,77,62
+flanner96,88,66
+nd79,80,59
+tusk,84,67
+BigNDfan,85,70
+Rockbrig97,78,65
+Fenian Man,75,61
+IrishDomer08,80,60
+DC74,74,58
+Room 303 Alumni,81,74
+ND_Hurdler,78,65
+IrishMace,78,62
+nebIRISH,84,66
+ockseemoreon,75,60
+DBCSMITH,79,61
+Chapel Hill Irish,82,69
+Cartwright,83,65
+Tarascan,78,60
+gmurphy,78,70
+DesertFox1ND,78,63
+domerheel,80,65
+campus-zoo,80,60
+stedsman,80,65
+Lone Star Irish,75,63
+The Mad Hungarian,72,64
+Irish Bill,76,56
+ndalberta,69,49
+oggie,71,56
+rossjar,72,63
+pmac98,74,59
+JLM,73,55
+ndbass_2001,78,60
+John88,78,61
+pmoose,80,64

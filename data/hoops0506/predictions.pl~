@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+
+while ($line = <>) {
+    if ($line =~ /\D+(\d+)\D+(\d+).* - \b(.+)\b  \d+\/\d+\/\d{4}/) {
+	$nd = $1;
+	$opp = $2;
+	$handle = $3;
+	print "$handle,$nd,$opp\n";
+    }
+}

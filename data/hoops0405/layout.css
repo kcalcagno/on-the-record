@@ -1,0 +1,71 @@
+body {
+  background-color: white;
+  color: black;
+  font-family: Tahoma, Arial, Helvetica, sans-serif
+}
+
+h1.game {
+  font-size: x-large;
+}
+
+table {
+  border: solid 1mm;
+  border-collapse: collapse;
+}
+
+colgroup.scores {
+  text-align: right;
+  font-size: smaller;
+}
+
+col.total {
+  font-weight: bold;
+  border-left: red 2mm;
+  font-size: larger;
+}
+
+col.name {
+  font-weight: bold;
+}
+
+thead th {
+  border-bottom: double 1mm;
+  font-weight: bold;
+  text-align: center;
+}
+
+tbody td {
+  border-bottom: solid 1px;
+}
+
+th, td {
+  padding-left: 0.5ex;
+  padding-right: 0.5ex
+}
+
+td.name {
+  font-weight: bold;
+  white-space: nowrap;
+  border-right: double 1mm;
+}
+
+th.name, th.total {
+  border-right: double 1mm;
+}
+
+td.total {
+  font-weight: bold;
+  text-align: right;
+  border-right: double 1mm;
+}
+
+th.scores {
+  font-size: smaller;
+  border-right: solid 1px;
+}
+
+td.scores {
+  font-size: smaller;
+  text-align: right;
+  border-right: solid 1px;
+}
