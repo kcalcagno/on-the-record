@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import glob
 from ftplib import FTP
 from getpass import getpass
 
-ftp = FTP('www.ndnation.com')
+ftp = FTP('ndn.hdxen.com')
 password = getpass()
 ftp.login('irishmace@ndnation.com', password)
 ftp.cwd('hoops')
