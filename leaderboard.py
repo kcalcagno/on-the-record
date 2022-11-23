@@ -96,8 +96,8 @@ class ContestPick(object):
 class Index(object):
     def __init__(self, fullSeason, acc, misc):
         self.games = sorted(Game.games.values(), key=lambda g: g.gameId)
-        self.fullSeasonActive = fullSeason.active
-        self.accActive = acc.active
+        self.fullSeason = fullSeason
+        self.acc = acc
         self.misc = misc
         year = int(misc['year'])
         self.season = {
