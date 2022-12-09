@@ -53,6 +53,15 @@ class Game(object):
         conn.executemany(query, self.generatePickData())
         conn.commit()
 
+    def clear(self, conn):
+        query = 'delete from prediction where game_id = :id'
+        params = { 'id': self.gameId }
+        conn.execute(query, params)
+        query = '''update game set nd_score = null, opp_score = null
+                   where game_id = :id'''
+        conn.execute(query, params)
+        conn.commit()
+
     def generatePickData(self):
         for pick in self.predictions:
             yield {'game': self.gameId, 'poster': pick.poster.posterId,
