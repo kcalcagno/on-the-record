@@ -37,7 +37,7 @@
             <tbody>
                 {{#players}}
                 <tr>
-                    <td class="scores">{{rank}}.</td>
+                    <td class="scores">{{#rank}}{{rank}}.{{/rank}}</td>
                     <td class="name">{{name}}</td>
                     <td class="total">{{totalScore}}</td>
                     {{#picks}}

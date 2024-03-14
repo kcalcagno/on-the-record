@@ -25,7 +25,7 @@
             <tbody>
                 {{#predictions}}
                 <tr>
-                    <td class="scores">{{gameRank}}.</td>
+                    <td class="scores">{{#gameRank}}{{gameRank}}.{{/gameRank}}</td>
                     <td class="name">{{poster.posterName}}</td>
                     <td class="total">{{score}}</td>
                     <td class="scores">{{ndScore}}</td>

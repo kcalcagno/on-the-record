@@ -91,7 +91,7 @@ class Game(object):
         prevPick = None
         for rank, pick in enumerate(self.predictions, start=1):
             if prevPick and pick.sortkey() == prevPick.sortkey():
-                pick.gameRank = prevPick.gameRank
+                pick.gameRank = None
                 pick.gameBonus = prevPick.gameBonus
             else:
                 pick.gameRank = rank

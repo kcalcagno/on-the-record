@@ -44,7 +44,7 @@ class Contest(object):
         prevPlayer = None
         for rank, player in enumerate(self.players, start=1):
             if prevPlayer and player.totalScore == prevPlayer.totalScore:
-                player.rank = prevPlayer.rank
+                player.rank = None
             else:
                 player.rank = rank
             prevPlayer = player
