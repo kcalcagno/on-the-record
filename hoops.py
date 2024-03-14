@@ -7,9 +7,13 @@ import re
 class Game(object):
     games = dict()
     
-    def __init__(self):
+    def __init__(self, gameId=None, opponent=None, shortName=None, conference=False):
         self.penalty = 0
         self.predictions = []
+        self.gameId = gameId
+        self.opponent = opponent
+        self.shortName = shortName
+        self.conference = conference
     
     @classmethod
     def loadAll(clazz, conn):
@@ -37,10 +41,22 @@ class Game(object):
         return game;
 
     @classmethod
+    def getAll(clazz, conn):
+        clazz.loadAll(conn)
+        return clazz.games
+
+    @classmethod
     def dump(clazz):
         for game in list(clazz.games.values()):
             print(game.gameId, game.opponent, game.ndScore, game.oppScore)
-            
+
+    def create(self, conn):
+        query = 'insert into game values (:id, :opponent, :short, :conf, null, null)'
+        params = {'id': self.gameId, 'opponent': self.opponent, 'short': self.shortName,
+                  'conf': 1 if self.conference else 0}
+        conn.execute(query, params)
+        conn.commit()
+
     def save(self, conn):
         query = '''update game set nd_score = :nd, opp_score = :opp
                    where game_id = :id'''
@@ -186,10 +202,12 @@ class Prediction(object):
     def sortkey(self):
         return (self.score, self.penalty, self.margin, self.points)
 
-
-if __name__ == '__main__':
+def connect():
     conn = sqlite3.connect('hoops.db')
     conn.row_factory = sqlite3.Row
+    return conn
 
+if __name__ == '__main__':
+    conn = connect()
     Game.loadAll(conn)
     Game.dump()
